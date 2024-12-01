@@ -3,46 +3,62 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
-// Expose this entity as an API resource (if using API Platform)
 #[ORM\Entity]
 #[ApiResource]
 class Product
 {
-    // The primary key (unique ID for the product)
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: "integer")]
     private ?int $id = null;
 
-    // Name of the product (e.g., "iPhone 14", "T-Shirt")
     #[ORM\Column(type: "string", length: 255)]
+    #[Assert\NotBlank(message: "Le nom du produit ne peut pas être vide")]
+    #[
+        Assert\Length(
+            min: 2,
+            max: 255,
+            minMessage: "Le nom du produit doit contenir au moins {{ limit }} caractères",
+            maxMessage: "Le nom du produit ne peut pas dépasser {{ limit }} caractères"
+        )
+    ]
     private ?string $name = null;
 
-    // Detailed description of the product
     #[ORM\Column(type: "text")]
+    #[Assert\NotBlank(message: "La description ne peut pas être vide")]
+    #[
+        Assert\Length(
+            min: 10,
+            minMessage: "La description doit contenir au moins {{ limit }} caractères"
+        )
+    ]
     private ?string $description = null;
 
-    // Price of the product
     #[ORM\Column(type: "float")]
+    #[Assert\Positive(message: "Le prix doit être un nombre positif")]
+    #[Assert\NotNull(message: "Le prix ne peut pas être vide")]
     private ?float $price = null;
 
-    // Timestamp of product creation
     #[ORM\Column(type: "datetime")]
-    private ?\DateTimeInterface $createdAt = null; // Prevents a product from existing without a category
+    private ?\DateTimeInterface $createdAt = null;
 
-    // Relationship: Each Product must belong to one Category
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: "products")]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotNull(message: "Le produit doit appartenir à une catégorie")]
     private ?Category $category = null;
 
-    // Getter and setter for 'id'
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    // Getter and setter for 'name'
     public function getName(): ?string
     {
         return $this->name;
@@ -51,11 +67,9 @@ class Product
     public function setName(string $name): self
     {
         $this->name = $name;
-
         return $this;
     }
 
-    // Getter and setter for 'description'
     public function getDescription(): ?string
     {
         return $this->description;
@@ -64,11 +78,9 @@ class Product
     public function setDescription(string $description): self
     {
         $this->description = $description;
-
         return $this;
     }
 
-    // Getter and setter for 'price'
     public function getPrice(): ?float
     {
         return $this->price;
@@ -77,24 +89,14 @@ class Product
     public function setPrice(float $price): self
     {
         $this->price = $price;
-
         return $this;
     }
 
-    // Getter and setter for 'createdAt'
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    // Getter and setter for 'category'
     public function getCategory(): ?Category
     {
         return $this->category;
@@ -103,7 +105,6 @@ class Product
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
-
         return $this;
     }
 }
