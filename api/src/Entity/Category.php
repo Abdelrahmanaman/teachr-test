@@ -2,26 +2,32 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
-// Expose this entity as an API resource (if using API Platform)
 #[ORM\Entity]
 #[ApiResource]
 class Category
 {
-    // The primary key (unique ID for the category)
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: "integer")]
     private ?int $id = null;
 
-    // Name of the category (e.g., "Electronics", "Clothing")
     #[ORM\Column(type: "string", length: 255)]
+    #[Assert\NotBlank(message: "Le nom de la catégorie ne peut pas être vide")]
+    #[
+        Assert\Length(
+            min: 2,
+            max: 255,
+            minMessage: "Le nom de la catégorie doit contenir au moins {{ limit }} caractères",
+            maxMessage: "Le nom de la catégorie ne peut pas dépasser {{ limit }} caractères"
+        )
+    ]
     private ?string $name = null;
 
-    // Relationship: One Category can have many Products
     #[
         ORM\OneToMany(
             mappedBy: "category",
@@ -31,19 +37,16 @@ class Category
     ]
     private Collection $products;
 
-    // Constructor initializes the products collection to manage relationships
     public function __construct()
     {
         $this->products = new ArrayCollection();
     }
 
-    // Getter and setter for 'id'
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    // Getter and setter for 'name'
     public function getName(): ?string
     {
         return $this->name;
@@ -52,13 +55,30 @@ class Category
     public function setName(string $name): self
     {
         $this->name = $name;
-
         return $this;
     }
 
-    // Getter for related products
     public function getProducts(): Collection
     {
         return $this->products;
+    }
+
+    public function addProduct(Product $product): self
+    {
+        if (!$this->products->contains($product)) {
+            $this->products->add($product);
+            $product->setCategory($this);
+        }
+        return $this;
+    }
+
+    public function removeProduct(Product $product): self
+    {
+        if ($this->products->removeElement($product)) {
+            if ($product->getCategory() === $this) {
+                $product->setCategory(null);
+            }
+        }
+        return $this;
     }
 }
