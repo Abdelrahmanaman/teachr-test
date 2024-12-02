@@ -2,58 +2,80 @@ import Link from "next/link";
 import { FC, FunctionComponent, useState } from "react";
 import { useQuery } from "react-query";
 import { Category } from "../../types/Category";
+import { PagedCollection } from "../../types/collection";
 import { Product } from "../../types/Product";
-import { SortField, SortOrder } from "../../types/sorts";
 import { fetch, getItemPath } from "../../utils/dataAccess";
 import { formatDate } from "../../utils/formatDate";
 
 interface Props {
   products: Product[];
-  onPageChange?: (page: number) => void;
   currentPage?: number;
-  totalPages?: number;
+  itemsPerPage?: number;
+  onPageChange?: (page: number) => void;
+}
+
+interface FilterOptions {
+  category: string;
+  priceSort: "none" | "asc" | "desc";
+  dateSort: "none" | "asc" | "desc";
 }
 
 export const List: FunctionComponent<Props> = ({
   products,
-  onPageChange,
   currentPage = 1,
-  totalPages = 1,
+  itemsPerPage = 10,
+  onPageChange = () => {},
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [sortField, setSortField] = useState<SortField>("name");
-  const [sortOrder, setSortOrder] = useState<SortOrder>("asc");
+  const [filters, setFilters] = useState<FilterOptions>({
+    category: "",
+    priceSort: "none",
+    dateSort: "none",
+  });
 
-  // Sort and filter products
-  const sortedAndFilteredProducts = products
-    .filter(
-      (product) =>
+  const { data: categoriesData } = useQuery(
+    "categories",
+    async () => {
+      const response = await fetch<PagedCollection<Category>>("/categories");
+      return response?.data;
+    },
+    {
+      staleTime: 30000,
+    },
+  );
+
+  const categories =
+    categoriesData?.["hydra:member"] || categoriesData?.member || [];
+
+  // Filter and sort products
+  const filteredProducts = products
+    .filter((product) => {
+      const matchesSearch =
         product.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        product.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        product.price?.toString().includes(searchTerm),
-    )
+        product.description?.toLowerCase().includes(searchTerm.toLowerCase());
+
+      const matchesCategory =
+        !filters.category || product.category === filters.category;
+
+      return matchesSearch && matchesCategory;
+    })
     .sort((a, b) => {
-      if (sortField === "price") {
-        return sortOrder === "asc"
+      if (filters.priceSort !== "none") {
+        return filters.priceSort === "asc"
           ? (a.price || 0) - (b.price || 0)
           : (b.price || 0) - (a.price || 0);
       }
-      if (sortField === "name") {
-        return sortOrder === "asc"
-          ? (a.name || "").localeCompare(b.name || "")
-          : (b.name || "").localeCompare(a.name || "");
+
+      if (filters.dateSort !== "none") {
+        const dateA = new Date(a.createdAt || "").getTime();
+        const dateB = new Date(b.createdAt || "").getTime();
+        return filters.dateSort === "asc" ? dateA - dateB : dateB - dateA;
       }
+
       return 0;
     });
 
-  const handleSort = (field: SortField) => {
-    if (field === sortField) {
-      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-    } else {
-      setSortField(field);
-      setSortOrder("asc");
-    }
-  };
+  const displayedProducts = filteredProducts;
 
   return (
     <div className="p-4">
@@ -115,29 +137,60 @@ export const List: FunctionComponent<Props> = ({
           )}
         </div>
 
-        {/* Sort Controls */}
-        <div className="flex gap-2">
-          <button
-            onClick={() => handleSort("name")}
-            className={`px-3 py-1 rounded ${
-              sortField === "name" ? "bg-cyan-500 text-white" : "bg-gray-200"
-            }`}
+        {/* Category Filter */}
+        <div className="flex gap-4">
+          <select
+            value={filters.category}
+            onChange={(e) =>
+              setFilters((prev) => ({ ...prev, category: e.target.value }))
+            }
+            className="px-8 py-2 border border-gray-300 rounded-lg"
           >
-            Name {sortField === "name" && (sortOrder === "asc" ? "↑" : "↓")}
-          </button>
-          <button
-            onClick={() => handleSort("price")}
-            className={`px-3 py-1 rounded ${
-              sortField === "price" ? "bg-cyan-500 text-white" : "bg-gray-200"
-            }`}
+            <option value="">All Categories</option>
+            {categories?.map((category: any) => (
+              <option key={category["@id"]} value={category["@id"]}>
+                {category.name}
+              </option>
+            ))}
+          </select>
+
+          {/* Price Sort */}
+          <select
+            value={filters.priceSort}
+            onChange={(e) =>
+              setFilters((prev) => ({
+                ...prev,
+                priceSort: e.target.value as "none" | "asc" | "desc",
+              }))
+            }
+            className="px-8 py-2 border border-gray-300 rounded-lg"
           >
-            Price {sortField === "price" && (sortOrder === "asc" ? "↑" : "↓")}
-          </button>
+            <option value="none">Price: No Sort</option>
+            <option value="asc">Price: Low to High</option>
+            <option value="desc">Price: High to Low</option>
+          </select>
+
+          {/* Date Sort */}
+          <select
+            value={filters.dateSort}
+            onChange={(e) =>
+              setFilters((prev) => ({
+                ...prev,
+                dateSort: e.target.value as "none" | "asc" | "desc",
+              }))
+            }
+            className="px-3 py-2 border border-gray-300 rounded-lg"
+          >
+            <option value="none">Date: No Sort</option>
+            <option value="asc">Date: Oldest First</option>
+            <option value="desc">Date: Newest First</option>
+          </select>
         </div>
       </div>
+
       {/* Results Count */}
       <div className="text-sm text-gray-500 mb-4">
-        Showing {sortedAndFilteredProducts.length} products
+        Showing {displayedProducts.length} products
         {searchTerm && ` matching "${searchTerm}"`}
       </div>
 
@@ -157,7 +210,7 @@ export const List: FunctionComponent<Props> = ({
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
-          {sortedAndFilteredProducts.map((product) => (
+          {displayedProducts.map((product) => (
             <ProductRow
               key={product["@id"]}
               product={product}
@@ -167,7 +220,7 @@ export const List: FunctionComponent<Props> = ({
         </tbody>
       </table>
 
-      {sortedAndFilteredProducts.length === 0 && (
+      {displayedProducts.length === 0 && (
         <div className="text-center py-12">
           <svg
             className="mx-auto h-12 w-12 text-gray-400"
@@ -246,7 +299,7 @@ const ProductRow: FC<ProductRowProps> = ({ product, searchTerm }) => {
       <td>
         {category ? (
           <Link
-            href={getItemPath(category["@id"], "/categorys/[id]")}
+            href={getItemPath(category["@id"], "/categories/[id]")}
             className="text-cyan-600 hover:text-cyan-800"
           >
             {category.name}
@@ -262,8 +315,19 @@ const ProductRow: FC<ProductRowProps> = ({ product, searchTerm }) => {
           className="text-cyan-500 hover:text-cyan-700"
           title="View Details"
         >
-          {/* Icon for View Details */}
-          {/* SVG code here */}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            className="w-5 h-5"
+          >
+            <path d="M12 15a3 3 0 100-6 3 3 0 000 6z" />
+            <path
+              fillRule="evenodd"
+              d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 010-1.113zM17.25 12a5.25 5.25 0 11-10.5 0 5.25 5.25 0 0110.5 0z"
+              clipRule="evenodd"
+            />
+          </svg>
         </Link>
       </td>
       <td className="w-8">
@@ -272,8 +336,15 @@ const ProductRow: FC<ProductRowProps> = ({ product, searchTerm }) => {
           className="text-cyan-500 hover:text-cyan700"
           title="Edit"
         >
-          {/* Icon for Edit */}
-          {/* SVG code here */}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            className="w-5 h-5"
+          >
+            <path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32l8.4-8.4z" />
+            <path d="M5.25 5.25a3 3 0 00-3 3v10.5a3 3 0 003 3h10.5a3 3 0 003-3V13.5a.75.75 0 00-1.5 0v5.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5V8.25a1.5 1.5 0 011.5-1.5h5.25a.75.75 0 000-1.5H5.25z" />
+          </svg>
         </Link>
       </td>
     </tr>

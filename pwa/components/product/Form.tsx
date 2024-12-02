@@ -1,11 +1,13 @@
-import { FunctionComponent, useState } from "react";
-import Link from "next/link";
-import { useRouter } from "next/router";
 import { ErrorMessage, Formik } from "formik";
-import { useMutation } from "react-query";
+import Link from "next/link";
+import { FunctionComponent, useState } from "react";
+import { useMutation, useQuery } from "react-query";
 
-import { fetch, FetchError, FetchResponse } from "../../utils/dataAccess";
+import toast from "react-hot-toast";
+import { Category } from "../../types/Category";
+import { PagedCollection } from "../../types/collection";
 import { Product } from "../../types/Product";
+import { fetch, FetchError, FetchResponse } from "../../utils/dataAccess";
 
 interface Props {
   product?: Product;
@@ -30,7 +32,20 @@ const deleteProduct = async (id: string) =>
 
 export const Form: FunctionComponent<Props> = ({ product }) => {
   const [, setError] = useState<string | null>(null);
-  const router = useRouter();
+
+  const { data: categoriesData } = useQuery(
+    "categories",
+    async () => {
+      const response = await fetch<PagedCollection<Category>>("/categories");
+      return response?.data;
+    },
+    {
+      staleTime: 30000,
+    },
+  );
+
+  const categories =
+    categoriesData?.["hydra:member"] || categoriesData?.member || [];
 
   const saveMutation = useMutation<
     FetchResponse<Product> | undefined,
@@ -44,10 +59,10 @@ export const Form: FunctionComponent<Props> = ({ product }) => {
     DeleteParams
   >(({ id }) => deleteProduct(id), {
     onSuccess: () => {
-      router.push("/products");
+      toast.success("Product deleted successfully");
     },
     onError: (error) => {
-      setError(`Error when deleting the resource: ${error}`);
+      toast.error(`Error deleting product: ${error.message}`);
       console.error(error);
     },
   });
@@ -82,23 +97,18 @@ export const Form: FunctionComponent<Props> = ({ product }) => {
           // add your validation logic here
           return errors;
         }}
-        onSubmit={(values, { setSubmitting, setStatus, setErrors }) => {
+        onSubmit={(values, { setSubmitting, setErrors }) => {
           const isCreation = !values["@id"];
           saveMutation.mutate(
             { values },
             {
               onSuccess: () => {
-                setStatus({
-                  isValid: true,
-                  msg: `Element ${isCreation ? "created" : "updated"}.`,
-                });
-                router.push("/products");
+                toast.success(
+                  `Product ${isCreation ? "created" : "updated"} successfully`,
+                );
               },
               onError: (error) => {
-                setStatus({
-                  isValid: false,
-                  msg: `${error.message}`,
-                });
+                toast.error(`Error: ${error.message}`);
                 if ("fields" in error) {
                   setErrors(error.fields);
                 }
@@ -106,7 +116,7 @@ export const Form: FunctionComponent<Props> = ({ product }) => {
               onSettled: () => {
                 setSubmitting(false);
               },
-            }
+            },
           );
         }}
       >
@@ -209,6 +219,7 @@ export const Form: FunctionComponent<Props> = ({ product }) => {
                 name="price"
               />
             </div>
+
             <div className="mb-2">
               <label
                 className="text-gray-700 block text-sm font-bold"
@@ -216,13 +227,10 @@ export const Form: FunctionComponent<Props> = ({ product }) => {
               >
                 category
               </label>
-              <input
+              <select
                 name="category"
                 id="product_category"
                 value={values.category ?? ""}
-                type="text"
-                placeholder=""
-                required={true}
                 className={`mt-1 block w-full ${
                   errors.category && touched.category ? "border-red-500" : ""
                 }`}
@@ -231,14 +239,22 @@ export const Form: FunctionComponent<Props> = ({ product }) => {
                 }
                 onChange={handleChange}
                 onBlur={handleBlur}
-              />
+                required
+              >
+                <option value="">Select a category</option>
+                {categories?.map((category: Category) => (
+                  <option key={category["@id"]} value={category["@id"]}>
+                    {category.name}
+                  </option>
+                ))}
+              </select>
               <ErrorMessage
                 className="text-xs text-red-500 pt-1"
                 component="div"
                 name="category"
               />
             </div>
-            <div className="mb-2">
+            <div className="mb-2 hidden">
               <label
                 className="text-gray-700 block text-sm font-bold"
                 htmlFor="product_createdAt"
@@ -266,18 +282,7 @@ export const Form: FunctionComponent<Props> = ({ product }) => {
                 name="createdAt"
               />
             </div>
-            {status && status.msg && (
-              <div
-                className={`border px-4 py-3 my-4 rounded ${
-                  status.isValid
-                    ? "text-cyan-700 border-cyan-500 bg-cyan-200/50"
-                    : "text-red-700 border-red-400 bg-red-100"
-                }`}
-                role="alert"
-              >
-                {status.msg}
-              </div>
-            )}
+
             <button
               type="submit"
               className="inline-block mt-2 bg-cyan-500 hover:bg-cyan-700 text-sm text-white font-bold py-2 px-4 rounded"

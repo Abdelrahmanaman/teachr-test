@@ -1,11 +1,11 @@
-import { FunctionComponent, useState } from "react";
+import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import Head from "next/head";
+import { FunctionComponent, useState } from "react";
 
-import ReferenceLinks from "../common/ReferenceLinks";
-import { fetch, getItemPath } from "../../utils/dataAccess";
 import { Product } from "../../types/Product";
+import { fetch, getItemPath } from "../../utils/dataAccess";
+import ReferenceLinks from "../common/ReferenceLinks";
 
 interface Props {
   product: Product;
@@ -73,7 +73,7 @@ export const Show: FunctionComponent<Props> = ({ product, text }) => {
             <td>
               <ReferenceLinks
                 items={{
-                  href: getItemPath(product["category"], "/categorys/[id]"),
+                  href: getItemPath(product["category"], "/categories/[id]"),
                   name: product["category"],
                 }}
               />
