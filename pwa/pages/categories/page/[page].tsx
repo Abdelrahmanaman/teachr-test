@@ -2,12 +2,12 @@ import { GetStaticPaths, GetStaticProps } from "next";
 import { dehydrate, QueryClient } from "react-query";
 
 import {
-  PageList,
   getCategorys,
   getCategorysPath,
+  PageList,
 } from "../../../components/category/PageList";
-import { PagedCollection } from "../../../types/collection";
 import { Category } from "../../../types/Category";
+import { PagedCollection } from "../../../types/collection";
 import { fetch, getCollectionPaths } from "../../../utils/dataAccess";
 
 export const getStaticProps: GetStaticProps = async ({
@@ -29,7 +29,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const paths = await getCollectionPaths(
     response,
     "categories",
-    "/categorys/page/[page]"
+    "/categories/page/[page]",
   );
 
   return {

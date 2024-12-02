@@ -9,11 +9,10 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { dehydrate, QueryClient, useQuery } from "react-query";
 
-import { Show } from "../../../components/category/Show";
-import { PagedCollection } from "../../../types/collection";
+import { Form } from "../../../components/category/Form";
 import { Category } from "../../../types/Category";
+import { PagedCollection } from "../../../types/collection";
 import { fetch, FetchResponse, getItemPaths } from "../../../utils/dataAccess";
-import { useMercure } from "../../../utils/mercure";
 
 const getCategory = async (id: string | string[] | undefined) =>
   id ? await fetch<Category>(`/categories/${id}`) : Promise.resolve(undefined);
@@ -22,14 +21,11 @@ const Page: NextComponentType<NextPageContext> = () => {
   const router = useRouter();
   const { id } = router.query;
 
-  const {
-    data: { data: category, hubURL, text } = { hubURL: null, text: "" },
-  } = useQuery<FetchResponse<Category> | undefined>(["category", id], () =>
-    getCategory(id)
-  );
-  const categoryData = useMercure(category, hubURL);
+  const { data: { data: category } = {} } = useQuery<
+    FetchResponse<Category> | undefined
+  >(["category", id], () => getCategory(id));
 
-  if (!categoryData) {
+  if (!category) {
     return <DefaultErrorPage statusCode={404} />;
   }
 
@@ -37,10 +33,10 @@ const Page: NextComponentType<NextPageContext> = () => {
     <div>
       <div>
         <Head>
-          <title>{`Show Category ${categoryData["@id"]}`}</title>
+          <title>{category && `Edit Category ${category["@id"]}`}</title>
         </Head>
       </div>
-      <Show category={categoryData} text={text} />
+      <Form category={category} />
     </div>
   );
 };
@@ -62,7 +58,11 @@ export const getStaticProps: GetStaticProps = async ({
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const response = await fetch<PagedCollection<Category>>("/categories");
-  const paths = await getItemPaths(response, "categories", "/categorys/[id]");
+  const paths = await getItemPaths(
+    response,
+    "categories",
+    "/categories/[id]/edit",
+  );
 
   return {
     paths,

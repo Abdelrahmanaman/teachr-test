@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity]
-#[ApiResource]
+#[ApiResource(paginationEnabled: true, paginationItemsPerPage: 10)]
 class Product
 {
     #[ORM\Id]

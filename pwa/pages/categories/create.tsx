@@ -2,13 +2,13 @@ import { NextComponentType, NextPageContext } from "next";
 import Head from "next/head";
 
 import { Toaster } from "react-hot-toast";
-import { Form } from "../../components/product/Form";
+import { Form } from "../../components/category/Form";
 
 const Page: NextComponentType<NextPageContext> = () => (
   <div>
     <div>
       <Head>
-        <title>Create Product</title>
+        <title>Create Category</title>
       </Head>
     </div>
     <Form />
