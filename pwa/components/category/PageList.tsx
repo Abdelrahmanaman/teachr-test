@@ -1,14 +1,13 @@
 import { NextComponentType, NextPageContext } from "next";
-import { useRouter } from "next/router";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 
+import { Category } from "../../types/Category";
+import { PagedCollection } from "../../types/collection";
+import { fetch, parsePage } from "../../utils/dataAccess";
 import Pagination from "../common/Pagination";
 import { List } from "./List";
-import { PagedCollection } from "../../types/collection";
-import { Category } from "../../types/Category";
-import { fetch, FetchResponse, parsePage } from "../../utils/dataAccess";
-import { useMercure } from "../../utils/mercure";
 
 export const getCategorysPath = (page?: string | string[] | undefined) =>
   `/categories${typeof page === "string" ? `?page=${page}` : ""}`;
@@ -17,17 +16,23 @@ export const getCategorys =
     await fetch<PagedCollection<Category>>(getCategorysPath(page));
 const getPagePath = (path: string) =>
   `/categorys/page/${parsePage("categories", path)}`;
-
 export const PageList: NextComponentType<NextPageContext> = () => {
   const {
     query: { page },
   } = useRouter();
-  const { data: { data: categorys, hubURL } = { hubURL: null } } = useQuery<
-    FetchResponse<PagedCollection<Category>> | undefined
-  >(getCategorysPath(page), getCategorys(page));
-  const collection = useMercure(categorys, hubURL);
-
-  if (!collection || !collection["hydra:member"]) return null;
+  const { data: categoriesData } = useQuery(
+    "categories",
+    async () => {
+      const response = await fetch<PagedCollection<Category>>("/categories");
+      return response?.data;
+    },
+    {
+      staleTime: 30000,
+    },
+  );
+  const categories =
+    categoriesData?.["hydra:member"] || categoriesData?.member || [];
+  console.log(categories);
 
   return (
     <div>
@@ -36,8 +41,10 @@ export const PageList: NextComponentType<NextPageContext> = () => {
           <title>Category List</title>
         </Head>
       </div>
-      <List categorys={collection["hydra:member"]} />
-      <Pagination collection={collection} getPagePath={getPagePath} />
+      <List categories={categories} />
+      {categoriesData && (
+        <Pagination collection={categoriesData} getPagePath={getPagePath} />
+      )}
     </div>
   );
 };

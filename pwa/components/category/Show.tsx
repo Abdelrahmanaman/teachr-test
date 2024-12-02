@@ -1,11 +1,11 @@
-import { FunctionComponent, useState } from "react";
+import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import Head from "next/head";
+import { FunctionComponent, useState } from "react";
 
-import ReferenceLinks from "../common/ReferenceLinks";
-import { fetch, getItemPath } from "../../utils/dataAccess";
 import { Category } from "../../types/Category";
+import { fetch, getItemPath } from "../../utils/dataAccess";
+import ReferenceLinks from "../common/ReferenceLinks";
 
 interface Props {
   category: Category;
@@ -22,7 +22,7 @@ export const Show: FunctionComponent<Props> = ({ category, text }) => {
 
     try {
       await fetch(category["@id"], { method: "DELETE" });
-      router.push("/categorys");
+      router.push("/categories");
     } catch (error) {
       setError("Error when deleting the resource.");
       console.error(error);
@@ -39,7 +39,7 @@ export const Show: FunctionComponent<Props> = ({ category, text }) => {
         />
       </Head>
       <Link
-        href="/categorys"
+        href="/categories"
         className="text-sm text-cyan-500 font-bold hover:text-cyan-700"
       >
         {"< Back to list"}
@@ -83,7 +83,7 @@ export const Show: FunctionComponent<Props> = ({ category, text }) => {
       )}
       <div className="flex space-x-2 mt-4 items-center justify-end">
         <Link
-          href={getItemPath(category["@id"], "/categorys/[id]/edit")}
+          href={getItemPath(category["@id"], "/categories/[id]/edit")}
           className="inline-block mt-2 border-2 border-cyan-500 bg-cyan-500 hover:border-cyan-700 hover:bg-cyan-700 text-xs text-white font-bold py-2 px-4 rounded"
         >
           Edit
