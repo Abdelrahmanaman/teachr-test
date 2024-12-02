@@ -1,11 +1,7 @@
 import { GetStaticPaths, GetStaticProps } from "next";
 import { dehydrate, QueryClient } from "react-query";
 
-import {
-  PageList,
-  getProducts,
-  getProductsPath,
-} from "../../../components/product/PageList";
+import { getProducts, PageList } from "../../../components/product/PageList";
 import { PagedCollection } from "../../../types/collection";
 import { Product } from "../../../types/Product";
 import { fetch, getCollectionPaths } from "../../../utils/dataAccess";
@@ -14,7 +10,16 @@ export const getStaticProps: GetStaticProps = async ({
   params: { page } = {},
 }) => {
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery(getProductsPath(page), getProducts(page));
+  const pageNumber = typeof page === "string" ? parseInt(page) : 1;
+
+  try {
+    await queryClient.prefetchQuery(
+      ["products", pageNumber],
+      getProducts(pageNumber),
+    );
+  } catch (error) {
+    console.error("Error prefetching products:", error);
+  }
 
   return {
     props: {
@@ -29,7 +34,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const paths = await getCollectionPaths(
     response,
     "products",
-    "/products/page/[page]"
+    "/products/page/[page]",
   );
 
   return {
