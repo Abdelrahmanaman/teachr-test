@@ -2,11 +2,28 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Delete;
 
 #[ORM\Entity]
-#[ApiResource(paginationEnabled: true, paginationItemsPerPage: 10)]
+#[
+    ApiResource(
+        paginationEnabled: true,
+        paginationItemsPerPage: 10,
+        operations: [
+            new Get(),
+            new Post(),
+            new GetCollection(),
+            new Put(),
+            new Delete(),
+        ]
+    )
+]
 class Product
 {
     #[ORM\Id]

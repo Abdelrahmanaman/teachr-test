@@ -3,6 +3,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 
+import { Toaster } from "react-hot-toast";
 import { PagedCollection } from "../../types/collection";
 import { Product } from "../../types/Product";
 import { fetch, FetchResponse, parsePage } from "../../utils/dataAccess";
@@ -121,6 +122,29 @@ export const PageList: NextComponentType<NextPageContext> = () => {
         getPagePath={(path) => {
           const matches = path.match(/page=(\d+)/);
           return `/products/page/${matches ? matches[1] : "1"}`;
+        }}
+      />
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          // Default toast options
+          duration: 3000,
+          style: {
+            background: "#363636",
+            color: "#fff",
+          },
+          success: {
+            duration: 3000,
+            style: {
+              background: "#059669", // green
+            },
+          },
+          error: {
+            duration: 4000,
+            style: {
+              background: "#DC2626", // red
+            },
+          },
         }}
       />
     </div>

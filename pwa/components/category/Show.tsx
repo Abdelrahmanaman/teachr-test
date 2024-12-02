@@ -63,12 +63,14 @@ export const Show: FunctionComponent<Props> = ({ category, text }) => {
           <tr>
             <th scope="row">products</th>
             <td>
-              <ReferenceLinks
-                items={category["products"].map((ref: any) => ({
-                  href: getItemPath(ref, "/products/[id]"),
-                  name: ref,
-                }))}
-              />
+              {category["products"] && (
+                <ReferenceLinks
+                  items={category["products"].map((ref: any) => ({
+                    href: getItemPath(ref, "/products/[id]"),
+                    name: ref,
+                  }))}
+                />
+              )}
             </td>
           </tr>
         </tbody>
