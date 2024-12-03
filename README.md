@@ -4,20 +4,20 @@
 
 ### Dashboard Overview
 
-![Homepage]([https://github.com/abdelrahman/teachr-test/screenshots/homepage.png](https://github.com/Abdelrahmanaman/teachr-test/blob/main/screenshots/homepage.png?raw=true))
+![Homepage](https://github.com/abdelrahman/teachr-test/screenshots/homepage.png](https://github.com/Abdelrahmanaman/teachr-test/blob/main/screenshots/homepage.png?raw=true)
 
 ### Product Creation Modal
 
-![Create Product]([https://github.com/abdelrahman/teachr-test/screenshots/products.png](https://github.com/Abdelrahmanaman/teachr-test/blob/main/screenshots/products.png?raw=true))
+![Create Product](https://github.com/abdelrahman/teachr-test/screenshots/products.png](https://github.com/Abdelrahmanaman/teachr-test/blob/main/screenshots/products.png?raw=true)
 
 
 ### Category Management
 
-![Create Product]([https://github.com/abdelrahman/teachr-test/screenshots/categories.pn](https://github.com/Abdelrahmanaman/teachr-test/blob/main/screenshots/categories.png?raw=true)g)
+![Create Product](https://github.com/abdelrahman/teachr-test/screenshots/categories.pn](https://github.com/Abdelrahmanaman/teachr-test/blob/main/screenshots/categories.png?raw=true)
 
 ### Docs
 
-![Create Product]([https://github.com/abdelrahman/teachr-test/screenshots/docs.png](https://github.com/Abdelrahmanaman/teachr-test/blob/main/screenshots/docs.png?raw=true))
+![Create Product](https://github.com/abdelrahman/teachr-test/screenshots/docs.png](https://github.com/Abdelrahmanaman/teachr-test/blob/main/screenshots/docs.png?raw=true)
 
 
 ```markdown
