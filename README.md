@@ -19,7 +19,7 @@
 ![Create Product](https://raw.githubusercontent.com/Abdelrahmanaman/teachr-test/refs/heads/main/screenshots/docs.png)
 
 
-```markdown
+
 ## Context and Motivation
 
 As a developer new to PHP, I undertook this project with the goal of creating a robust and maintainable product management application. My journey led me to make thoughtful and strategic technical choices.
