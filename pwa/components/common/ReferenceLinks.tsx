@@ -25,7 +25,7 @@ const ReferenceLinks: FunctionComponent<Props> = ({ items }) => {
 
   if (typeof items === "string") {
     return (
-      <Link href={items} className="text-cyan-700 font-bold">
+      <Link href={items} className="text-blue-700 font-bold">
         {items}
       </Link>
     );
@@ -33,7 +33,7 @@ const ReferenceLinks: FunctionComponent<Props> = ({ items }) => {
 
   const { href, name } = items as ReferenceItem;
   return (
-    <Link href={href} className="text-cyan-700 font-bold">
+    <Link href={href} className="text-blue-700 font-bold">
       {name || href} {/* Fallback to href if name is undefined */}
     </Link>
   );

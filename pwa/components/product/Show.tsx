@@ -40,7 +40,7 @@ export const Show: FunctionComponent<Props> = ({ product, text }) => {
       </Head>
       <Link
         href="/products"
-        className="text-sm text-cyan-500 font-bold hover:text-cyan-700"
+        className="text-sm text-blue-500 font-bold hover:text-blue-700"
       >
         {"< Back to list"}
       </Link>
@@ -96,7 +96,7 @@ export const Show: FunctionComponent<Props> = ({ product, text }) => {
       <div className="flex space-x-2 mt-4 items-center justify-end">
         <Link
           href={getItemPath(product["@id"], "/products/[id]/edit")}
-          className="inline-block mt-2 border-2 border-cyan-500 bg-cyan-500 hover:border-cyan-700 hover:bg-cyan-700 text-xs text-white font-bold py-2 px-4 rounded"
+          className="inline-block mt-2 border-2 border-blue-500 bg-blue-500 hover:border-blue-700 hover:bg-blue-700 text-xs text-white font-bold py-2 px-4 rounded"
         >
           Edit
         </Link>

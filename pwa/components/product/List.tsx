@@ -285,7 +285,7 @@ const ProductRow: FC<ProductRowProps> = ({ product, searchTerm }) => {
       <th scope="row">
         <Link
           href={getItemPath(product["@id"], "/products/[id]")}
-          className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
+          className="text-blue-500 hover:text-blue-600  px-4 py-2 rounded"
         >
           {" "}
           #{getIdFromIRI(product["@id"])}{" "}

@@ -60,7 +60,7 @@ export const Form: FunctionComponent<Props> = ({ category }) => {
     <div className="container mx-auto px-4 max-w-2xl mt-4">
       <Link
         href="/categories"
-        className="text-sm text-cyan-500 font-bold hover:text-cyan-700"
+        className="text-sm text-blue-500 font-bold hover:text-blue-700"
       >
         {`< Back to list`}
       </Link>
@@ -143,7 +143,7 @@ export const Form: FunctionComponent<Props> = ({ category }) => {
 
             <button
               type="submit"
-              className="inline-block mt-2 bg-cyan-500 hover:bg-cyan-700 text-sm text-white font-bold py-2 px-4 rounded"
+              className="inline-block mt-2 bg-blue-500 hover:bg-blue-700 text-sm text-white font-bold py-2 px-4 rounded"
               disabled={isSubmitting}
             >
               Submit

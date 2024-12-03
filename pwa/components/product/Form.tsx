@@ -77,7 +77,7 @@ export const Form: FunctionComponent<Props> = ({ product }) => {
     <div className="container mx-auto px-4 max-w-2xl mt-4">
       <Link
         href="/products"
-        className="text-sm text-cyan-500 font-bold hover:text-cyan-700"
+        className="text-sm text-blue-500 font-bold hover:text-blue-700"
       >
         {`< Back to list`}
       </Link>

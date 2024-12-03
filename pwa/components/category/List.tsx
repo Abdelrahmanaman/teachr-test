@@ -14,7 +14,7 @@ export const List: FunctionComponent<Props> = ({ categories }) => {
         <h1 className="text-3xl mb-2">Category List</h1>
         <Link
           href="/categories/create"
-          className="bg-cyan-500 hover:bg-cyan-700 text-white text-sm font-bold py-2 px-4 rounded"
+          className="bg-blue-500 hover:bg-blue-700 text-white text-sm font-bold py-2 px-4 rounded"
         >
           Create
         </Link>
@@ -81,7 +81,7 @@ const CategoryRow: FC<CategoryRowProps> = ({ category }) => {
       <th scope="row">
         <Link
           href={getItemPath(category["@id"], "/categories/[id]")}
-          className="text-cyan-600 hover:text-cyan-800 font-medium"
+          className="text-blue-600 hover:text-blue-800 font-medium"
         >
           #{getIdFromIRI(category["@id"])}
         </Link>
@@ -90,7 +90,7 @@ const CategoryRow: FC<CategoryRowProps> = ({ category }) => {
       <td className="w-8">
         <Link
           href={getItemPath(category["@id"], "/categories/[id]")}
-          className="text-cyan-500 hover:text-cyan-700"
+          className="text-blue-500 hover:text-blue-700"
           title="View Details"
         >
           <svg
@@ -111,7 +111,7 @@ const CategoryRow: FC<CategoryRowProps> = ({ category }) => {
       <td className="w-8">
         <Link
           href={getItemPath(category["@id"], "/categories/[id]/edit")}
-          className="text-cyan-500 hover:text-cyan-700"
+          className="text-blue-500 hover:text-blue-700"
           title="Edit"
         >
           <svg

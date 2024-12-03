@@ -10,7 +10,7 @@
     }
 
     a {
-        @apply no-underline text-cyan-700;
+        @apply no-underline text-blue-700;
     }
 }
 

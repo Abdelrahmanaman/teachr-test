@@ -26,7 +26,7 @@ const Pagination = ({ collection, getPagePath }: Props) => {
       >
         <Link
           href={first ? getPagePath(first) : "#"}
-          className={`text-black p-3 hover:text-cyan-500 hover:bg-cyan-50 ${
+          className={`text-black p-3 hover:text-blue-500 hover:bg-blue-50 ${
             previous ? "" : " text-gray-500 pointer-events-none"
           }`}
           aria-label="First page"
@@ -35,7 +35,7 @@ const Pagination = ({ collection, getPagePath }: Props) => {
         </Link>
         <Link
           href={previous ? getPagePath(previous) : "#"}
-          className={`text-black p-3 hover:text-cyan-500 hover:bg-cyan-50 ${
+          className={`text-black p-3 hover:text-blue-500 hover:bg-blue-50 ${
             previous ? "" : " text-gray-500 pointer-events-none"
           }`}
           aria-label="Previous page"
@@ -44,7 +44,7 @@ const Pagination = ({ collection, getPagePath }: Props) => {
         </Link>
         <Link
           href={next ? getPagePath(next) : "#"}
-          className={`text-black p-3 hover:text-cyan-500 hover:bg-cyan-50 ${
+          className={`text-black p-3 hover:text-blue-500 hover:bg-blue-50 ${
             next ? "" : " text-gray-500 pointer-events-none"
           }`}
           aria-label="Next page"
@@ -53,7 +53,7 @@ const Pagination = ({ collection, getPagePath }: Props) => {
         </Link>
         <Link
           href={last ? getPagePath(last) : "#"}
-          className={`text-black p-3 hover:text-cyan-500 hover:bg-cyan-50 ${
+          className={`text-black p-3 hover:text-blue-500 hover:bg-blue-50 ${
             next ? "" : "text-gray-500 pointer-events-none"
           }`}
           aria-label="Last page"
