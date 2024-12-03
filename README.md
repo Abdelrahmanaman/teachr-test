@@ -139,7 +139,7 @@ docker-compose exec php bin/console doctrine:schema:update --force
 
 ### Running Apploication
 ```bash
-https://localhost8443
+https://localhost:8443/
 ```
 
 
