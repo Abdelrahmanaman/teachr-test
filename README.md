@@ -4,20 +4,20 @@
 
 ### Dashboard Overview
 
-![Homepage](https://github.com/abdelrahman/teachr-test/screenshots/homepage.png)
+![Homepage]([https://github.com/abdelrahman/teachr-test/screenshots/homepage.png](https://github.com/Abdelrahmanaman/teachr-test/blob/main/screenshots/homepage.png?raw=true))
 
 ### Product Creation Modal
 
-![Create Product](https://github.com/abdelrahman/teachr-test/screenshots/products.png)
+![Create Product]([https://github.com/abdelrahman/teachr-test/screenshots/products.png](https://github.com/Abdelrahmanaman/teachr-test/blob/main/screenshots/products.png?raw=true))
 
 
 ### Category Management
 
-![Create Product](https://github.com/abdelrahman/teachr-test/screenshots/categories.png)
+![Create Product]([https://github.com/abdelrahman/teachr-test/screenshots/categories.pn](https://github.com/Abdelrahmanaman/teachr-test/blob/main/screenshots/categories.png?raw=true)g)
 
 ### Docs
 
-![Create Product](https://github.com/abdelrahman/teachr-test/screenshots/docs.png)
+![Create Product]([https://github.com/abdelrahman/teachr-test/screenshots/docs.png](https://github.com/Abdelrahmanaman/teachr-test/blob/main/screenshots/docs.png?raw=true))
 
 
 ```markdown
@@ -110,8 +110,8 @@ product-management/
 
 1. Clone the Repository
 ```bash
-git clone https://github.com/yourusername/product-management.git
-cd product-management
+git clone https://github.com/yourusername/teachr-test.git
+cd teachr-test
 ```
 
 2. Start Docker Containers
@@ -138,11 +138,11 @@ docker-compose exec php bin/console make:entity
 docker-compose exec php bin/console doctrine:schema:update --force
 ```
 
-### Frontend Development
-- Start development server:
+### Running Apploication
 ```bash
-docker-compose exec frontend npm start
+https://localhost8443
 ```
+
 
 ## Why These Technological Choices?
 
