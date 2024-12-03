@@ -1,47 +1,171 @@
-<h1 align="center"><a href="https://api-platform.com"><img src="https://api-platform.com/images/logos/Logo_Circle%20webby%20text%20blue.png" alt="API Platform" width="250" height="250"></a></h1>
+# Technical Documentation - Product Management System
 
-API Platform is a next-generation web framework designed to easily create API-first projects without compromising extensibility
-and flexibility:
+## Screenshots
 
-* Design your own data model as plain old PHP classes or [**import an existing ontology**](https://api-platform.com/docs/schema-generator).
-* **Expose in minutes a hypermedia REST or a GraphQL API** with pagination, data validation, access control, relation embedding,
-  filters, and error handling...
-* Benefit from Content Negotiation: [GraphQL](https://api-platform.com/docs/core/graphql/), [JSON-LD](https://json-ld.org), [Hydra](https://hydra-cg.com),
-  [HAL](https://github.com/mikekelly/hal_specification/blob/master/hal_specification.md), [JSON:API](https://jsonapi.org/), [YAML](https://yaml.org/), [JSON](https://www.json.org/), [XML](https://www.w3.org/XML/) and [CSV](https://www.ietf.org/rfc/rfc4180.txt) are supported out of the box.
-* Enjoy the **beautiful automatically generated API documentation** ([OpenAPI](https://api-platform.com/docs/core/openapi/)).
-* Add [**a convenient Material Design administration interface**](https://api-platform.com/docs/admin) built with [React](https://reactjs.org/)
-  without writing a line of code.
-* **Scaffold fully functional Progressive-Web-Apps and mobile apps** built with [Next.js](https://api-platform.com/docs/client-generator/nextjs/) (React),
-[Nuxt.js](https://api-platform.com/docs/client-generator/nuxtjs/) (Vue.js) or [React Native](https://api-platform.com/docs/client-generator/react-native/)
-thanks to [the client generator](https://api-platform.com/docs/client-generator/) (a Vue.js generator is also available).
-* Install a development environment and deploy your project in production using **[Docker](https://api-platform.com/docs/distribution)**
-and [Kubernetes](https://api-platform.com/docs/deployment/kubernetes).
-* Easily add **[OAuth](https://oauth.net/) authentication**.
-* Create specs and tests with **[a developer friendly API testing tool](https://api-platform.com/docs/distribution/testing/)**.
+### Dashboard Overview
 
-The official project documentation is available **[on the API Platform website](https://api-platform.com)**.
+![Homepage](https://github.com/abdelrahman/teachr-test/screenshots/homepage.png)
 
-API Platform embraces open web standards and the
-[Linked Data](https://www.w3.org/standards/semanticweb/data) movement. Your API will automatically expose structured data.
-It means that your API Platform application is usable **out of the box** with technologies of
-the semantic web.
+### Product Creation Modal
 
-It also means that **your SEO will be improved** because **[Google leverages these formats](https://developers.google.com/search/docs/guides/intro-structured-data)**.
+![Create Product](https://github.com/abdelrahman/teachr-test/screenshots/products.png)
 
-Last but not least, the server component of API Platform is built on top of the [Symfony](https://symfony.com) framework,
-while client components leverage [React](https://reactjs.org/) ([Vue.js](https://vuejs.org/) flavors are also available).
-It means that you can:
 
-* Use **thousands of Symfony bundles and React components** with API Platform.
-* Integrate API Platform in **any existing Symfony, React, or Vue application**.
-* Reuse **all your Symfony and JavaScript skills**, and benefit from the incredible amount of documentation available.
-* Enjoy the popular [Doctrine ORM](https://www.doctrine-project.org/projects/orm.html) (used by default, but fully optional:
-  you can use the data provider you want, including but not limited to MongoDB and Elasticsearch)
+### Category Management
 
-## Install
+![Create Product](https://github.com/abdelrahman/teachr-test/screenshots/categories.png)
 
-[Read the official "Getting Started" guide](https://api-platform.com/docs/distribution/).
+### Docs
 
-## Credits
+![Create Product](https://github.com/abdelrahman/teachr-test/screenshots/docs.png)
 
-Created by [Kévin Dunglas](https://dunglas.fr). Commercial support is available at [Les-Tilleuls.coop](https://les-tilleuls.coop).
+
+```markdown
+## Context and Motivation
+
+As a developer new to PHP, I undertook this project with the goal of creating a robust and maintainable product management application. My journey led me to make thoughtful and strategic technical choices.
+
+## Detailed Technology Choices
+
+### Backend: Symfony and API Platform
+
+#### Why Symfony API Platform?
+
+1. **Creator's Recommendation**
+   - Fabien Potencier, Symfony's creator, recommends API Platform if you are going to integrate a front-end framework on the docs page
+   - Guarantees a modern and efficient API development approach
+
+2. **Complexity Reduction**
+   - API Platform automatically generates CRUD endpoints
+   - Minimizes repetitive code and manual configurations
+   - Ideal for a PHP beginner
+
+3. **Integrated Features**
+   - Automatic data validation
+   - Simplified serialization
+   - Automatic API documentation (Swagger/OpenAPI)
+   - Effortless entity relationship management
+
+### Frontend: React.js
+
+#### Strategic Choices
+
+1. **Modern State Management**
+   - React Query for data management
+     - Advanced cache handling
+     - Reduction of redundant API calls
+     - Integrated loading and error states
+
+2. **Performance and Reactivity**
+   - Reactive components
+   - Efficient interface updates
+   - Smooth user experience
+
+### Containerization: Docker
+
+#### Key Advantages
+
+1. **Environmental Consistency**
+   - Identical across all systems
+   - Elimination of "It works on my machine" problems
+
+2. **Technical Independence**
+   - Platform-agnostic deployment
+   - Easy scalability
+
+3. **Component Isolation**
+   - Clear separation between backend, frontend, and database
+   - Facilitates maintenance and evolution
+
+## Project Architecture
+
+```
+product-management/
+│
+├── api/                 # Symfony API Platform
+│   └── src/
+│       ├── Entity/
+│       │   ├── Product.php
+│       │   └── Category.php
+│
+├── pwa/                # Nextjs Application
+│   └── src/
+│       ├── components/
+│       ├── hooks/
+│       └── pages/
+│
+└── docker-compose.yml
+```
+
+## Installation Instructions
+
+### Prerequisites
+
+- Docker
+- Docker Compose
+- Node.js (for frontend development)
+- Composer (for backend development)
+
+### Step-by-Step Setup
+
+1. Clone the Repository
+```bash
+git clone https://github.com/yourusername/product-management.git
+cd product-management
+```
+
+2. Start Docker Containers
+```bash
+docker-compose up -d
+```
+
+3. Initialize Backend Database
+```bash
+docker-compose exec php bin/console doctrine:migrations:migrate
+```
+
+4. Install Frontend Dependencies
+```bash
+docker-compose exec frontend pnpm install
+```
+
+## Development Workflow
+
+### Backend Development
+- Use Symfony console commands:
+```bash
+docker-compose exec php bin/console make:entity
+docker-compose exec php bin/console doctrine:schema:update --force
+```
+
+### Frontend Development
+- Start development server:
+```bash
+docker-compose exec frontend npm start
+```
+
+## Why These Technological Choices?
+
+### Rationale Behind API Platform
+- Reduces learning curve for PHP beginners
+- Provides robust, out-of-the-box API functionality
+- Minimizes boilerplate code
+- Offers automatic validation and serialization
+
+### React Query Benefits
+- Efficient data fetching
+- Automatic caching
+- Simplified state management
+- Reduces unnecessary API calls
+
+### Docker's Value Proposition
+- Ensures consistent development environment
+- Simplifies dependency management
+- Enables easy scaling
+- Platform-independent deployment
+
+## Potential Future Improvements
+- Implement authentication
+- Enhance error handling
+
+
