@@ -12,8 +12,7 @@
 
 
 ### Category Management
-
-![Create Product](https://github.com/abdelrahman/teachr-test/screenshots/categories.pn](https://github.com/Abdelrahmanaman/teachr-test/blob/main/screenshots/categories.png?raw=true)
+![Categories](https://raw.githubusercontent.com/Abdelrahmanaman/teachr-test/refs/heads/main/screenshots/categories.png)
 
 ### Docs
 
