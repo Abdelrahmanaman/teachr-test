@@ -4,11 +4,11 @@
 
 ### Dashboard Overview
 
-![Homepage](https://github.com/abdelrahman/teachr-test/screenshots/homepage.png](https://github.com/Abdelrahmanaman/teachr-test/blob/main/screenshots/homepage.png?raw=true)
+![Homepage]([achr-test/blob/main/screenshots/homepage.png?raw=true](https://raw.githubusercontent.com/Abdelrahmanaman/teachr-test/refs/heads/main/screenshots/products.png))
 
 ### Product Creation Modal
 
-![Create Product](https://github.com/abdelrahman/teachr-test/screenshots/products.png](https://github.com/Abdelrahmanaman/teachr-test/blob/main/screenshots/products.png?raw=true)
+![Create Product]([in/screenshots/products.png?raw=true](https://raw.githubusercontent.com/Abdelrahmanaman/teachr-test/refs/heads/main/screenshots/products.png))
 
 
 ### Category Management
@@ -16,7 +16,7 @@
 
 ### Docs
 
-![Create Product](https://github.com/abdelrahman/teachr-test/screenshots/docs.png](https://github.com/Abdelrahmanaman/teachr-test/blob/main/screenshots/docs.png?raw=true)
+![Create Product](https://github.com/abdelrahman/teachr-test/screenshots/docs.png)
 
 
 ```markdown
