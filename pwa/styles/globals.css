@@ -1,10 +1,12 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
     * {
-        font-family: Poppins;
+        font-family: "Nunito", sans-serif;
     }
 
     a {
@@ -24,5 +26,5 @@
         right: 0;
         transform: translate(13.397459%, -100%) rotate(30deg); /* translateX: 100%*(1-cos(angleRotation) */
         transform-origin: bottom left;
-  }
+    }
 }
