@@ -285,7 +285,7 @@ export const Form: FunctionComponent<Props> = ({ product }) => {
 
             <button
               type="submit"
-              className="inline-block mt-2 bg-cyan-500 hover:bg-cyan-700 text-sm text-white font-bold py-2 px-4 rounded"
+              className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
               disabled={isSubmitting}
             >
               Submit

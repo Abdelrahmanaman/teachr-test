@@ -83,7 +83,7 @@ export const List: FunctionComponent<Props> = ({
         <h1 className="text-3xl mb-2">Product List</h1>
         <Link
           href="/products/create"
-          className="bg-cyan-500 hover:bg-cyan-700 text-white text-sm font-bold py-2 px-4 rounded"
+          className="bg-blue-500 hover:bg-blue-700 text-white text-sm font-bold py-2 px-4 rounded"
         >
           Create
         </Link>
@@ -98,7 +98,7 @@ export const List: FunctionComponent<Props> = ({
             placeholder="Search products..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full px-4 py-2 pl-10 pr-8 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
+            className="w-full px-4 py-2 pl-10 pr-8 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <svg
@@ -118,7 +118,7 @@ export const List: FunctionComponent<Props> = ({
           {searchTerm && (
             <button
               onClick={() => setSearchTerm("")}
-              className="absolute inset-y-0 right-0 pr-3 flex items-center"
+              className="absolute inset-y-0 right-0 pr-3 flex items-center "
             >
               <svg
                 className="h-5 w-5 text-gray-400 hover:text-gray-600"
@@ -285,7 +285,7 @@ const ProductRow: FC<ProductRowProps> = ({ product, searchTerm }) => {
       <th scope="row">
         <Link
           href={getItemPath(product["@id"], "/products/[id]")}
-          className="text-cyan-600 hover:text-cyan-800 font-medium"
+          className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
         >
           {" "}
           #{getIdFromIRI(product["@id"])}{" "}
@@ -300,7 +300,7 @@ const ProductRow: FC<ProductRowProps> = ({ product, searchTerm }) => {
         {category ? (
           <Link
             href={getItemPath(category["@id"], "/categories/[id]")}
-            className="text-cyan-600 hover:text-cyan-800"
+            className="text-blue-600 hover:text-blue-800"
           >
             {category.name}
           </Link>
@@ -312,7 +312,7 @@ const ProductRow: FC<ProductRowProps> = ({ product, searchTerm }) => {
       <td className="w-8">
         <Link
           href={getItemPath(product["@id"], "/products/[id]")}
-          className="text-cyan-500 hover:text-cyan-700"
+          className="text-blue-500 hover:text-blue-700"
           title="View Details"
         >
           <svg
@@ -333,7 +333,7 @@ const ProductRow: FC<ProductRowProps> = ({ product, searchTerm }) => {
       <td className="w-8">
         <Link
           href={getItemPath(product["@id"], "/products/[id]/edit")}
-          className="text-cyan-500 hover:text-cyan700"
+          className="text-blue-500 hover:text-blue700"
           title="Edit"
         >
           <svg
